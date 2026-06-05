@@ -1,0 +1,6 @@
+streamlit
+openpyxl
+pandas
+pypdf
+pillow
+python-docx
