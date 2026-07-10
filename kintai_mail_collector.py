@@ -38,8 +38,8 @@ import sys
 # ★ 設定：ここだけ変更してください
 # ============================================================
 
-# 出勤記録Excelの保存先（フルパスで指定）
-OUTPUT_EXCEL_PATH = r"C:\Users\総務\Documents\kintai_app\出勤記録.xlsx"
+# 出勤記録Excelの保存先（デスクトップ）
+OUTPUT_EXCEL_PATH = os.path.join(os.path.expanduser("~"), "Desktop", "出勤記録.xlsx")
 
 # ============================================================
 # メイン処理
@@ -79,6 +79,10 @@ def fetch_mails_from_outlook(target_date):
 
     for mail in inbox.Items:
         try:
+            # olMailItem (Class=43) のみ処理。会議通知・タスク等はスキップ
+            if not hasattr(mail, 'Class') or mail.Class != 43:
+                continue
+
             received = mail.ReceivedTime
             mail_date = datetime(
                 received.year,
@@ -87,6 +91,11 @@ def fetch_mails_from_outlook(target_date):
             ).date()
 
             if mail_date != target_date:
+                continue
+
+            # 件名に「勤怠連絡」を含むメールのみ対象
+            subject = mail.Subject or ""
+            if "勤怠連絡" not in subject:
                 continue
 
             sender_name = get_sender_name(mail)
