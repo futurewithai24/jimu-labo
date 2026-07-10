@@ -42,6 +42,7 @@ pg = st.navigation([
     st.Page("pages/4_画像リサイズ.py",             title="画像リサイズ",        icon="🖼️"),
     st.Page("pages/5_案内状一括生成.py",           title="案内状一括生成",      icon="📝"),
     st.Page("pages/6_Excel一括集計.py",            title="Excel一括集計",       icon="📋"),
+    st.Page("pages/8_経費集計.py",                title="経費集計",            icon="💴"),
     st.Page("pages/9_画像透かし追加.py",           title="画像透かし追加",      icon="🔏"),
 ])
 pg.run()

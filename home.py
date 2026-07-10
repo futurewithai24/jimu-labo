@@ -65,6 +65,11 @@ with col2:
         st.page_link("pages/6_Excel一括集計.py", label="使ってみる →")
 
     with st.container(border=True):
+        st.markdown("### 💴 経費集計")
+        st.write("日々の経費を入力してカテゴリ別に自動集計。Excelでダウンロードできます。")
+        st.page_link("pages/8_経費集計.py", label="使ってみる →")
+
+    with st.container(border=True):
         st.markdown("### 🔏 画像透かし一括追加")
         st.write("複数の画像にテキストやロゴをまとめて追加してZIPでダウンロード。背景透過PNG対応。")
         st.page_link("pages/9_画像透かし追加.py", label="使ってみる →")
