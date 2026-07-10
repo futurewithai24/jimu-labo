@@ -9,6 +9,39 @@ st.page_link("home.py", label="← ホームに戻る")
 st.title("📅 勤怠集計")
 st.caption("社内の勤怠Excelを複数アップするだけで、社員別の月次集計表を自動作成します（1人1ファイル対応）")
 
+# ── サンプルExcelダウンロード ──────────────────
+def _make_kintai_sample():
+    wb = openpyxl.Workbook()
+    ws = wb.active
+    ws.title = "勤怠2026"
+    ws["A1"] = "勤怠表サンプル（田中 花子）"
+    ws["A10"] = "日付"
+    ws["C10"] = "開始時刻"
+    ws["I10"] = "普通残業"
+    ws["J10"] = "深夜残業"
+    ws["AM10"] = "勤務時間数"
+    from datetime import time as t
+    for i, row in enumerate(range(11, 41)):
+        ws.cell(row=row, column=1).value = f"2026/07/{i+1:02d}"
+        if i % 7 in (5, 6):
+            continue
+        ws.cell(row=row, column=3).value  = t(9, 0)
+        ws.cell(row=row, column=39).value = 8.0
+        if i % 3 == 0:
+            ws.cell(row=row, column=9).value = 1.0
+    buf = io.BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    return buf
+
+st.download_button(
+    label="サンプルExcelをダウンロード",
+    data=_make_kintai_sample(),
+    file_name="勤怠サンプル_田中花子.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+st.caption("※ このサンプルを使って動作確認できます")
+st.divider()
 
 # ── ファイルアップロード ────────────────────────
 uploaded_files = st.file_uploader(

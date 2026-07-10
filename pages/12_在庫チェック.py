@@ -7,6 +7,35 @@ st.page_link("home.py", label="← ホームに戻る")
 st.title("📦 在庫チェック自動化")
 st.caption("入出庫記録をExcelに反映して、基準値以下の品目を赤くハイライトします")
 
+# ── サンプルExcelダウンロード ──────────────────
+def _make_zaiko_sample():
+    wb = openpyxl.Workbook()
+    ws1 = wb.active
+    ws1.title = "在庫一覧"
+    ws1.append(["品目名", "単位", "基準在庫数", "現在庫数"])
+    for row in [["コピー用紙A4", "箱", 5, 8], ["ボールペン黒", "本", 20, 15],
+                ["クリアファイル", "枚", 30, 50], ["付箋Sサイズ", "個", 10, 3]]:
+        ws1.append(row)
+    ws2 = wb.create_sheet("入出庫記録")
+    ws2.append(["日付", "品目名", "入庫数", "出庫数", "処理済みフラグ"])
+    for row in [["2026/07/01", "ボールペン黒", 0, 5, ""],
+                ["2026/07/02", "付箋Sサイズ", 0, 7, ""],
+                ["2026/07/03", "コピー用紙A4", 10, 0, ""]]:
+        ws2.append(row)
+    buf = io.BytesIO()
+    wb.save(buf)
+    buf.seek(0)
+    return buf
+
+st.download_button(
+    label="サンプルExcelをダウンロード（zaiko_kanri.xlsx）",
+    data=_make_zaiko_sample(),
+    file_name="zaiko_kanri.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+st.caption("※ 「在庫一覧」「入出庫記録」の2シート構成です")
+st.divider()
+
 ALERT_FILL  = PatternFill(start_color="FFCCCC", end_color="FFCCCC", fill_type="solid")
 ALERT_FONT  = Font(color="CC0000", bold=True, name="Meiryo UI")
 NORMAL_FONT = Font(name="Meiryo UI")

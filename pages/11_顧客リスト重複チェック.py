@@ -10,6 +10,26 @@ st.page_link("home.py", label="← ホームに戻る")
 st.title("👥 顧客リスト重複チェック")
 st.caption("会社名などのキー列を基に重複行を検出。黄色ハイライト付きExcelでダウンロードできます")
 
+# ── サンプルExcelダウンロード ──────────────────
+_sample_customers = pd.DataFrame({
+    "会社名":       ["株式会社山田商事", "㈱山田商事", "佐藤物産株式会社", "中村工業", "佐藤物産(株)", "高橋電機"],
+    "担当者名":     ["山田 太郎", "山田 太郎", "佐藤 次郎", "中村 三郎", "佐藤 次郎", "高橋 四郎"],
+    "メールアドレス": ["yamada@example.com", "yamada@example.com", "sato@example.com",
+                     "nakamura@example.com", "sato2@example.com", "takahashi@example.com"],
+    "電話番号":     ["03-1234-5678", "03-1234-5678", "03-2345-6789", "03-3456-7890", "03-2345-6789", "03-4567-8901"],
+})
+_sbuf = io.BytesIO()
+_sample_customers.to_excel(_sbuf, sheet_name="顧客リスト", index=False)
+_sbuf.seek(0)
+st.download_button(
+    label="サンプルExcelをダウンロード",
+    data=_sbuf,
+    file_name="顧客リスト_サンプル.xlsx",
+    mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+)
+st.caption("※ 「株式会社」「㈱」「(株)」のゆれを含む重複サンプルです")
+st.divider()
+
 
 def normalize(text):
     if not isinstance(text, str):
