@@ -34,20 +34,32 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
-pg = st.navigation([
-    st.Page("home.py",                             title="HOME",               icon="🏠"),
-    st.Page("pages/1_ガントチャート.py",            title="ガントチャート",      icon="📊"),
-    st.Page("pages/2_PDF結合・ページ抽出.py",       title="PDF結合・ページ抽出", icon="📄"),
-    st.Page("pages/3_勤怠集計.py",                 title="勤怠集計",            icon="📅"),
-    st.Page("pages/4_画像リサイズ.py",             title="画像リサイズ",        icon="🖼️"),
-    st.Page("pages/5_案内状一括生成.py",           title="案内状一括生成",      icon="📝"),
-    st.Page("pages/6_Excel一括集計.py",            title="Excel一括集計",       icon="📋"),
-    st.Page("pages/8_経費集計.py",                title="経費集計",            icon="💴"),
-    st.Page("pages/9_画像透かし追加.py",           title="画像透かし追加",      icon="🔏"),
-    st.Page("pages/10_パスワード付きZIP作成.py",   title="パスワード付きZIP",   icon="🔒"),
-    st.Page("pages/11_顧客リスト重複チェック.py",  title="顧客リスト重複チェック", icon="👥"),
-    st.Page("pages/12_在庫チェック.py",            title="在庫チェック",        icon="📦"),
-    st.Page("pages/13_フォルダ構成ZIP作成.py",     title="フォルダ構成ZIP作成", icon="📁"),
-    st.Page("pages/14_キーワードニュース収集.py",  title="キーワードニュース収集", icon="📰"),
-])
+pg = st.navigation({
+    "ホーム": [
+        st.Page("home.py",                            title="HOME",               icon="🏠"),
+    ],
+    "Excel・データ": [
+        st.Page("pages/1_ガントチャート.py",           title="ガントチャート",      icon="📊"),
+        st.Page("pages/3_勤怠集計.py",                title="勤怠集計",            icon="📅"),
+        st.Page("pages/6_Excel一括集計.py",           title="Excel一括集計",       icon="📋"),
+        st.Page("pages/11_顧客リスト重複チェック.py", title="顧客リスト重複チェック", icon="👥"),
+        st.Page("pages/12_在庫チェック.py",           title="在庫チェック",        icon="📦"),
+    ],
+    "PDF・ファイル": [
+        st.Page("pages/2_PDF結合・ページ抽出.py",     title="PDF結合・ページ抽出", icon="📄"),
+        st.Page("pages/10_パスワード付きZIP作成.py",  title="パスワード付きZIP",   icon="🔒"),
+        st.Page("pages/13_フォルダ構成ZIP作成.py",    title="フォルダ構成ZIP作成", icon="📁"),
+    ],
+    "画像": [
+        st.Page("pages/4_画像リサイズ.py",            title="画像リサイズ",        icon="🖼️"),
+        st.Page("pages/9_画像透かし追加.py",          title="画像透かし追加",      icon="🔏"),
+    ],
+    "情報収集": [
+        st.Page("pages/14_キーワードニュース収集.py", title="キーワードニュース収集", icon="📰"),
+    ],
+    "書類作成": [
+        st.Page("pages/5_案内状一括生成.py",          title="案内状一括生成",      icon="📝"),
+        st.Page("pages/8_経費集計.py",                title="経費集計",            icon="💴"),
+    ],
+})
 pg.run()
