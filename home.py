@@ -48,6 +48,11 @@ with col1:
         st.write("複数の画像をまとめてリサイズ。縦横比を保ったまま幅を指定するだけでOK。")
         st.page_link("pages/4_画像リサイズ.py", label="使ってみる →")
 
+    with st.container(border=True):
+        st.markdown("### 💴 経費集計")
+        st.write("日々の経費を入力してカテゴリ別に自動集計。Excelでダウンロードできます。")
+        st.page_link("pages/8_経費集計.py", label="使ってみる →")
+
 with col2:
     with st.container(border=True):
         st.markdown("### 📄 PDF結合・ページ抽出")
@@ -63,11 +68,6 @@ with col2:
         st.markdown("### 📋 Excel一括集計")
         st.write("列名がバラバラな複数のExcelをまとめて1ファイルに集約。列名の統一も自動対応。")
         st.page_link("pages/6_Excel一括集計.py", label="使ってみる →")
-
-    with st.container(border=True):
-        st.markdown("### 💴 経費集計")
-        st.write("日々の経費を入力してカテゴリ別に自動集計。Excelでダウンロードできます。")
-        st.page_link("pages/8_経費集計.py", label="使ってみる →")
 
     with st.container(border=True):
         st.markdown("### 🔏 画像透かし一括追加")
