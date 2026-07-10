@@ -53,6 +53,16 @@ with col1:
         st.write("日々の経費を入力してカテゴリ別に自動集計。Excelでダウンロードできます。")
         st.page_link("pages/8_経費集計.py", label="使ってみる →")
 
+    with st.container(border=True):
+        st.markdown("### 📦 在庫チェック自動化")
+        st.write("入出庫記録をExcelに反映して、基準値以下の品目を赤くハイライト。二重計算防止つき。")
+        st.page_link("pages/12_在庫チェック.py", label="使ってみる →")
+
+    with st.container(border=True):
+        st.markdown("### 📁 フォルダ構成ZIP作成")
+        st.write("プロジェクト名とフォルダ構成を入力するだけで、フォルダ構造入りのZIPをダウンロード。")
+        st.page_link("pages/13_フォルダ構成ZIP作成.py", label="使ってみる →")
+
 with col2:
     with st.container(border=True):
         st.markdown("### 📄 PDF結合・ページ抽出")
@@ -73,6 +83,21 @@ with col2:
         st.markdown("### 🔏 画像透かし一括追加")
         st.write("複数の画像にテキストやロゴをまとめて追加してZIPでダウンロード。背景透過PNG対応。")
         st.page_link("pages/9_画像透かし追加.py", label="使ってみる →")
+
+    with st.container(border=True):
+        st.markdown("### 🔒 パスワード付きZIP作成")
+        st.write("複数ファイルをまとめてAES暗号化ZIPに圧縮。パスワードを設定してダウンロードできます。")
+        st.page_link("pages/10_パスワード付きZIP作成.py", label="使ってみる →")
+
+    with st.container(border=True):
+        st.markdown("### 👥 顧客リスト重複チェック")
+        st.write("会社名などのキー列を基に重複行を検出。全角・半角ゆれも自動吸収して黄色ハイライト。")
+        st.page_link("pages/11_顧客リスト重複チェック.py", label="使ってみる →")
+
+    with st.container(border=True):
+        st.markdown("### 📰 キーワードニュース収集")
+        st.write("キーワードを入れるだけでGoogle ニュースから最新記事を自動収集してCSVでダウンロード。")
+        st.page_link("pages/14_キーワードニュース収集.py", label="使ってみる →")
 
 st.divider()
 

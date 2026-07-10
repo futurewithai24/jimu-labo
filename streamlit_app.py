@@ -44,5 +44,10 @@ pg = st.navigation([
     st.Page("pages/6_Excel一括集計.py",            title="Excel一括集計",       icon="📋"),
     st.Page("pages/8_経費集計.py",                title="経費集計",            icon="💴"),
     st.Page("pages/9_画像透かし追加.py",           title="画像透かし追加",      icon="🔏"),
+    st.Page("pages/10_パスワード付きZIP作成.py",   title="パスワード付きZIP",   icon="🔒"),
+    st.Page("pages/11_顧客リスト重複チェック.py",  title="顧客リスト重複チェック", icon="👥"),
+    st.Page("pages/12_在庫チェック.py",            title="在庫チェック",        icon="📦"),
+    st.Page("pages/13_フォルダ構成ZIP作成.py",     title="フォルダ構成ZIP作成", icon="📁"),
+    st.Page("pages/14_キーワードニュース収集.py",  title="キーワードニュース収集", icon="📰"),
 ])
 pg.run()
