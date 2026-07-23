@@ -1,10 +1,16 @@
 import streamlit as st
+import base64
+from pathlib import Path
 
 # ── ヒーローセクション ──────────────────────────
-col1, col2, col3 = st.columns([2, 1, 2])
-with col2:
-    st.image("assets/unloop-logo.png", width=120)
-st.markdown("<h1 style='text-align:center;'>UNLOOP</h1>", unsafe_allow_html=True)
+_img = base64.b64encode(Path("assets/unloop-logo.png").read_bytes()).decode()
+st.markdown(
+    f'<div style="text-align:center;padding:24px 0 4px">'
+    f'<img src="data:image/png;base64,{_img}" width="120" style="border-radius:12px">'
+    f'<h1 style="margin:12px 0 4px">UNLOOP</h1>'
+    f'</div>',
+    unsafe_allow_html=True
+)
 st.markdown("<p style='text-align:center; font-size:1.2rem; font-weight:bold;'>ファイル作業、もっとラクにしよう。</p>", unsafe_allow_html=True)
 st.markdown("<p style='text-align:center;'>CSVをアップして、ボタンを押すだけ。面倒な事務作業を自動化するツール集です。</p>", unsafe_allow_html=True)
 
