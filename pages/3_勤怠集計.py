@@ -5,6 +5,8 @@ import io
 import zipfile
 from datetime import timedelta, time, datetime, date
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📅 勤怠集計")
 st.caption("社内の勤怠Excelを複数アップするだけで、社員別の月次集計表を自動作成します（1人1ファイル対応）")

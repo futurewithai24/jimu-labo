@@ -6,6 +6,8 @@ import io
 import openpyxl
 from openpyxl.styles import PatternFill
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("👥 顧客リスト重複チェック")
 st.caption("会社名などのキー列を基に重複行を検出。黄色ハイライト付きExcelでダウンロードできます")

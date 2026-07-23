@@ -34,6 +34,8 @@ st.markdown("""
 </style>
 """, unsafe_allow_html=True)
 
+st.logo("assets/unloop-logo.png", link="https://unloop-tools.streamlit.app")
+
 pg = st.navigation({
     "ホーム": [
         st.Page("home.py",                            title="HOME",               icon="🏠"),

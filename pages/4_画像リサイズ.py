@@ -3,6 +3,8 @@ from PIL import Image
 import io
 import zipfile
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("🖼️ 画像一括リサイズ")
 st.caption("複数の画像をまとめてリサイズしてZIPでダウンロードできます")

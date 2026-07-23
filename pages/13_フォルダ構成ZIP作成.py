@@ -3,6 +3,8 @@ import zipfile
 import io
 from datetime import date
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📁 フォルダ構成ZIP作成")
 st.caption("プロジェクト名とフォルダ構成を入力するだけで、フォルダ構造入りのZIPをダウンロードできます")

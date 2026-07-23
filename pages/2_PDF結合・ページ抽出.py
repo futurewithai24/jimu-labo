@@ -2,6 +2,8 @@ import streamlit as st
 import io
 from pypdf import PdfWriter, PdfReader
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📄 PDF結合・ページ抽出")
 st.caption("複数のPDFを1つにまとめたり、必要なページだけ取り出せます")

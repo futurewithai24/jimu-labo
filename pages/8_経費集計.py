@@ -6,7 +6,9 @@ from datetime import date
 import openpyxl
 from openpyxl.styles import Font, PatternFill, Alignment
 
+from utils import show_logo
 st.set_page_config(page_title="経費集計", page_icon="💴", layout="wide")
+show_logo()
 st.title("💴 経費集計ツール")
 st.caption("日々の経費を入力 → カテゴリ別に自動集計 → Excelでダウンロード")
 

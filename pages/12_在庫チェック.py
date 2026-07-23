@@ -3,6 +3,8 @@ import openpyxl
 from openpyxl.styles import PatternFill, Font
 import io
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📦 在庫チェック自動化")
 st.caption("入出庫記録をExcelに反映して、基準値以下の品目を赤くハイライトします")

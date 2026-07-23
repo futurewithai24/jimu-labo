@@ -8,6 +8,8 @@ from datetime import datetime
 import io
 import zipfile
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📝 案内状一括生成")
 st.caption("送付先リストのExcelをアップするだけで、人数分のWord案内状を自動作成します")

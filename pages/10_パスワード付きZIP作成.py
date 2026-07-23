@@ -2,6 +2,8 @@ import streamlit as st
 import pyzipper
 import io
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("🔒 パスワード付きZIP作成")
 st.caption("複数ファイルをまとめてパスワード付きZIPに圧縮してダウンロードできます")

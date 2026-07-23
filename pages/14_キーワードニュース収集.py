@@ -6,6 +6,8 @@ from datetime import datetime, timedelta, timezone
 from email.utils import parsedate_to_datetime
 import time
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📰 キーワードニュース収集")
 st.caption("キーワードを入力するだけで、Google ニュースから最新記事を自動収集してCSVでダウンロードできます")

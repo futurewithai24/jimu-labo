@@ -5,6 +5,8 @@ import io
 import os
 from datetime import datetime, date
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📬 出勤記録")
 st.caption("Outlookから自動収集した出勤メールの記録を確認・ダウンロードできます")

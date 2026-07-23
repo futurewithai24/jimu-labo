@@ -3,6 +3,8 @@ import pandas as pd
 import io
 import zipfile
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📋 Excel一括集計")
 st.caption("列名がバラバラな複数のExcelをアップするだけで、1つのファイルにまとめます")

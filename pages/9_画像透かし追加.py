@@ -4,6 +4,8 @@ import io
 import zipfile
 import os
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("🔏 画像透かし一括追加")
 st.caption("複数の画像にテキストやロゴをまとめて追加してZIPでダウンロードできます")

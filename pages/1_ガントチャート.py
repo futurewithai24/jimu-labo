@@ -9,6 +9,8 @@ from calendar import monthrange
 
 FONT_NAME = "Meiryo UI"
 
+from utils import show_logo
+show_logo()
 st.page_link("home.py", label="← ホームに戻る")
 st.title("📊 ガントチャート自動生成")
 st.caption("CSVをアップロードしてExcel形式のガントチャートを作成します")
