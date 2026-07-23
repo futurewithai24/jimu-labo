@@ -7,7 +7,6 @@ _img = base64.b64encode(Path("assets/unloop-logo.png").read_bytes()).decode()
 st.markdown(
     f'<div style="text-align:center;padding:24px 0 4px">'
     f'<img src="data:image/png;base64,{_img}" width="120" style="border-radius:12px">'
-    f'<h1 style="margin:12px 0 4px">UNLOOP</h1>'
     f'</div>',
     unsafe_allow_html=True
 )
