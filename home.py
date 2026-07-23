@@ -1,19 +1,12 @@
 import streamlit as st
 import base64
-import io
-from PIL import Image
+from pathlib import Path
 
 # ── ヒーローセクション ──────────────────────────
-# 透過余白をトリムしてからbase64エンコード
-_pil = Image.open("assets/unloop-logo.png").convert("RGBA")
-_pil = _pil.crop(_pil.getbbox())
-_buf = io.BytesIO()
-_pil.save(_buf, format="PNG")
-_img = base64.b64encode(_buf.getvalue()).decode()
-
+_img = base64.b64encode(Path("assets/unloop-logo.png").read_bytes()).decode()
 st.markdown(
     f'<div style="text-align:center;padding:24px 0 0">'
-    f'<img src="data:image/png;base64,{_img}" width="300" style="background:#ffffff;border-radius:8px;padding:4px 8px;display:block;margin:0 auto">'
+    f'<img src="data:image/png;base64,{_img}" width="320" style="display:block;margin:0 auto;border-radius:12px">'
     f'</div>',
     unsafe_allow_html=True
 )
