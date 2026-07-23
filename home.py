@@ -6,9 +6,7 @@ from pathlib import Path
 _img = base64.b64encode(Path("assets/unloop-logo.png").read_bytes()).decode()
 st.markdown(
     f'<div style="text-align:center;padding:24px 0 0">'
-    f'<span style="display:inline-block;background:#ffffff;border-radius:10px;padding:4px 8px">'
-    f'<img src="data:image/png;base64,{_img}" width="280" style="display:block">'
-    f'</span>'
+    f'<img src="data:image/png;base64,{_img}" width="300" style="background:#ffffff;border-radius:8px;padding:6px 12px;display:block;margin:0 auto">'
     f'</div>',
     unsafe_allow_html=True
 )
