@@ -23,15 +23,6 @@ st.markdown("""
     [data-testid="stPageLink"] span,
     [data-testid="stPageLink"] * { font-weight: bold !important; }
 
-    /* ── 背景：宇宙系ブルー（ダークモード対応） ── */
-    .stApp {
-        background-color: #3a6898 !important;
-        background-image:
-            radial-gradient(ellipse at top left,      rgba(0, 100, 255, 0.40) 0%, transparent 50%),
-            radial-gradient(ellipse at top right,     rgba(0, 200, 255, 0.20) 0%, transparent 45%),
-            radial-gradient(ellipse at bottom left,   rgba(60, 0, 200, 0.30) 0%, transparent 50%),
-            radial-gradient(ellipse at bottom right,  rgba(0, 140, 255, 0.35) 0%, transparent 50%) !important;
-    }
 </style>
 """, unsafe_allow_html=True)
 
