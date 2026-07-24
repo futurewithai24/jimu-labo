@@ -5,8 +5,8 @@ from pathlib import Path
 # ── ヒーローセクション ──────────────────────────
 _img = base64.b64encode(Path("assets/unloop-logo-wide.png").read_bytes()).decode()
 st.markdown(
-    f'<div style="text-align:center;padding:24px 0 0">'
-    f'<img src="data:image/png;base64,{_img}" width="360" style="display:block;margin:0 auto;">'
+    f'<div style="text-align:center;padding:8px 0 0">'
+    f'<img src="data:image/png;base64,{_img}" width="280" style="display:block;margin:0 auto;border-radius:20px;">'
     f'</div>',
     unsafe_allow_html=True
 )
