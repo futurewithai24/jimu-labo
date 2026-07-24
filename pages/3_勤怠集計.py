@@ -12,25 +12,72 @@ st.title("📅 勤怠集計")
 st.caption("社内の勤怠Excelを複数アップするだけで、社員別の月次集計表を自動作成します（1人1ファイル対応）")
 
 # ── サンプルExcelダウンロード ──────────────────
+# 列構成: A=日付, B=曜日, C=開始時刻, D=退勤時刻, E=休憩(h), F=勤務時間数, G=普通残業, H=深夜残業
 def _make_kintai_sample():
+    from datetime import date, time as t
+    from openpyxl.styles import Font, PatternFill, Alignment, Border, Side
+    WEEKDAYS = ["月", "火", "水", "木", "金", "土", "日"]
+
     wb = openpyxl.Workbook()
     ws = wb.active
     ws.title = "勤怠2026"
-    ws["A1"] = "勤怠表サンプル（田中 花子）"
-    ws["A10"] = "日付"
-    ws["C10"] = "開始時刻"
-    ws["I10"] = "普通残業"
-    ws["J10"] = "深夜残業"
-    ws["AM10"] = "勤務時間数"
-    from datetime import time as t
-    for i, row in enumerate(range(11, 41)):
-        ws.cell(row=row, column=1).value = f"2026/07/{i+1:02d}"
-        if i % 7 in (5, 6):
-            continue
-        ws.cell(row=row, column=3).value  = t(9, 0)
-        ws.cell(row=row, column=39).value = 8.0
-        if i % 3 == 0:
-            ws.cell(row=row, column=9).value = 1.0
+
+    ws.merge_cells("A1:H1")
+    ws["A1"] = "勤怠表サンプル（田中 花子）　2026年7月"
+    ws["A1"].font = Font(name="Meiryo UI", bold=True, size=13)
+    ws["A1"].alignment = Alignment(horizontal="center")
+
+    headers = ["日付", "曜日", "開始時刻", "退勤時刻", "休憩(h)", "勤務時間数", "普通残業", "深夜残業"]
+    col_widths = [13, 6, 11, 11, 9, 12, 10, 10]
+    hfill = PatternFill(start_color="2F5496", end_color="2F5496", fill_type="solid")
+    hfont = Font(name="Meiryo UI", bold=True, color="FFFFFF")
+    thin = Side(style="thin", color="AAAAAA")
+    border = Border(left=thin, right=thin, top=thin, bottom=thin)
+
+    for ci, (h, w) in enumerate(zip(headers, col_widths), 1):
+        cell = ws.cell(row=3, column=ci, value=h)
+        cell.font = hfont
+        cell.fill = hfill
+        cell.alignment = Alignment(horizontal="center")
+        cell.border = border
+        ws.column_dimensions[cell.column_letter].width = w
+
+    dfont = Font(name="Meiryo UI")
+    wkend_fill = PatternFill(start_color="F2F2F2", end_color="F2F2F2", fill_type="solid")
+    date_fmt = "yyyy/mm/dd"
+    time_fmt = "h:mm"
+
+    ot_count = 0
+    for day in range(1, 32):
+        d = date(2026, 7, day)
+        row = 3 + day
+        is_weekend = d.weekday() >= 5
+
+        # A: 日付
+        dc = ws.cell(row=row, column=1, value=d)
+        dc.number_format = date_fmt
+        # B: 曜日
+        ws.cell(row=row, column=2, value=WEEKDAYS[d.weekday()])
+
+        if not is_weekend:
+            ws.cell(row=row, column=3, value=t(9, 0)).number_format = time_fmt   # C: 開始
+            ws.cell(row=row, column=4, value=t(18, 0)).number_format = time_fmt  # D: 退勤
+            ws.cell(row=row, column=5, value=1.0)                                 # E: 休憩
+            ot_count += 1
+            if ot_count % 4 == 0:
+                ws.cell(row=row, column=6, value=9.0)   # F: 勤務時間数（残業あり）
+                ws.cell(row=row, column=7, value=1.0)   # G: 普通残業
+            else:
+                ws.cell(row=row, column=6, value=8.0)   # F: 勤務時間数
+
+        for ci in range(1, 9):
+            cell = ws.cell(row=row, column=ci)
+            cell.font = dfont
+            cell.border = border
+            cell.alignment = Alignment(horizontal="center")
+            if is_weekend:
+                cell.fill = wkend_fill
+
     buf = io.BytesIO()
     wb.save(buf)
     buf.seek(0)
@@ -54,7 +101,6 @@ uploaded_files = st.file_uploader(
 
 # ── ファイル解析関数 ────────────────────────────
 def td_to_hours(val):
-    """timedelta・datetime.time・数値を時間数（float）に変換。負の値は0を返す"""
     if val is None:
         return 0.0
     if isinstance(val, timedelta):
@@ -69,7 +115,6 @@ def td_to_hours(val):
 KINTAI_SHEET_KEYWORDS = ["オリジナル", "勤怠", "出勤"]
 
 def _get_sheet(wb):
-    """「オリジナル2026」等の勤怠シートを名前で探し、なければアクティブシートを返す"""
     for name in wb.sheetnames:
         if any(kw in name for kw in KINTAI_SHEET_KEYWORDS):
             return wb[name]
@@ -81,24 +126,22 @@ def parse_kintai(file):
     ws = _get_sheet(wb)
     sheet_name = ws.title
 
-    # 氏名：ファイル名（拡張子なし）をそのまま使う
     name = file.name.rsplit(".", 1)[0]
 
-    # データ行（11〜41行）を集計
     attendance = 0
     work_hours = 0.0
     normal_ot  = 0.0
     night_ot   = 0.0
 
-    for row in range(11, 42):
-        start = ws.cell(row=row, column=3).value   # 開始時刻
+    for row in range(4, 35):
+        start = ws.cell(row=row, column=3).value   # C列: 開始時刻
         if start is None:
-            continue  # 出勤なし
+            continue
 
         attendance += 1
-        work_hours += td_to_hours(ws.cell(row=row, column=39).value)  # 勤務時間数(AM列)
-        normal_ot  += td_to_hours(ws.cell(row=row, column=9).value)   # 普通残業(I列)
-        night_ot   += td_to_hours(ws.cell(row=row, column=10).value)  # 深夜残業(J列)
+        work_hours += td_to_hours(ws.cell(row=row, column=6).value)  # F列: 勤務時間数
+        normal_ot  += td_to_hours(ws.cell(row=row, column=7).value)  # G列: 普通残業
+        night_ot   += td_to_hours(ws.cell(row=row, column=8).value)  # H列: 深夜残業
 
     return {
         "氏名":          name,
@@ -135,16 +178,15 @@ if uploaded_files:
                 ws2 = _get_sheet(wb2)
                 st.write(f"**ファイル：{f2.name}　シート：{ws2.title}**")
                 debug_rows = []
-                for r in range(11, 20):
+                for r in range(4, 13):
                     c_val = ws2.cell(row=r, column=3).value
-                    i_val = ws2.cell(row=r, column=9).value
-                    am_val = ws2.cell(row=r, column=39).value
-                    debug_rows.append({"行": r, "C列(開始)": c_val, "I列(普残)": i_val, "AM列(勤務h)": am_val})
+                    f_val = ws2.cell(row=r, column=6).value
+                    g_val = ws2.cell(row=r, column=7).value
+                    debug_rows.append({"行": r, "C列(開始)": c_val, "F列(勤務h)": f_val, "G列(普残)": g_val})
                 st.dataframe(pd.DataFrame(debug_rows), use_container_width=True)
         df = df.drop(columns=["_sheet"])
         st.dataframe(df, use_container_width=True)
 
-        # Excel出力
         def to_excel(df):
             wb = openpyxl.Workbook()
             ws = wb.active
@@ -183,5 +225,5 @@ with st.expander("📖 使い方"):
     st.write("3. 「集計結果をExcelでダウンロード」ボタンで取得")
     st.write("")
     st.write("**対応フォーマット**")
-    st.write("- 社内勤怠フォーマット（開始時刻：C列、終了時刻：F列、普通残業：I列、深夜残業：J列）")
+    st.write("- A列：日付　B列：曜日　C列：開始時刻　D列：退勤時刻　E列：休憩(h)　F列：勤務時間数　G列：普通残業　H列：深夜残業")
     st.write("- 氏名が空の場合はファイル名を氏名として使用します")
