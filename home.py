@@ -3,17 +3,34 @@ import base64
 from pathlib import Path
 
 # ── ヒーローセクション ──────────────────────────
-try:
-    _is_dark = st.context.theme.base == "dark"
-except Exception:
-    _is_dark = False
-
-_logo_file = "assets/unloop-logo-wide-dark.png" if _is_dark else "assets/unloop-logo-wide.png"
-_img = base64.b64encode(Path(_logo_file).read_bytes()).decode()
+_img_light = base64.b64encode(Path("assets/unloop-logo-wide.png").read_bytes()).decode()
+_img_dark  = base64.b64encode(Path("assets/unloop-logo-wide-dark.png").read_bytes()).decode()
 st.markdown(
-    f'<div style="text-align:center;padding:8px 0 0">'
-    f'<img src="data:image/png;base64,{_img}" width="280" style="display:block;margin:0 auto;border-radius:20px;">'
-    f'</div>',
+    f'''<div style="text-align:center;padding:8px 0 0">
+  <img id="logo-light" src="data:image/png;base64,{_img_light}"
+       width="280" style="display:block;margin:0 auto;border-radius:20px;">
+  <img id="logo-dark"  src="data:image/png;base64,{_img_dark}"
+       width="280" style="display:none;margin:0 auto;border-radius:20px;">
+</div>
+<script>
+(function(){{
+  function applyTheme(){{
+    var app = document.querySelector('[data-testid="stApp"]');
+    if(!app) return;
+    var bg = window.getComputedStyle(app).backgroundColor;
+    var rgb = bg.match(/\\d+/g);
+    if(!rgb) return;
+    var isDark = (parseInt(rgb[0])+parseInt(rgb[1])+parseInt(rgb[2])) < 300;
+    document.getElementById("logo-light").style.display = isDark ? "none"  : "block";
+    document.getElementById("logo-dark" ).style.display = isDark ? "block" : "none";
+  }}
+  applyTheme();
+  setTimeout(applyTheme, 300);
+  setTimeout(applyTheme, 800);
+  var obs = new MutationObserver(applyTheme);
+  obs.observe(document.documentElement, {{attributes:true, subtree:true, attributeFilter:["style","class"]}});
+}})();
+</script>''',
     unsafe_allow_html=True
 )
 st.markdown("<p style='text-align:center; font-size:1.2rem; font-weight:bold; margin-top:32px;'>ファイル作業、もっとラクにしよう。</p>", unsafe_allow_html=True)
