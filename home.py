@@ -16,19 +16,25 @@ st.markdown(
 (function(){{
   function applyTheme(){{
     var app = document.querySelector('[data-testid="stApp"]');
-    if(!app) return;
+    if(!app) return false;
     var bg = window.getComputedStyle(app).backgroundColor;
     var rgb = bg.match(/\\d+/g);
-    if(!rgb) return;
-    var isDark = (parseInt(rgb[0])+parseInt(rgb[1])+parseInt(rgb[2])) < 300;
-    document.getElementById("logo-light").style.display = isDark ? "none"  : "block";
-    document.getElementById("logo-dark" ).style.display = isDark ? "block" : "none";
+    if(!rgb || bg.indexOf("0, 0, 0, 0") !== -1) return false;
+    var isDark = (parseInt(rgb[0])+parseInt(rgb[1])+parseInt(rgb[2])) < 380;
+    var light = document.getElementById("logo-light");
+    var dark  = document.getElementById("logo-dark");
+    if(!light || !dark) return false;
+    light.style.display = isDark ? "none"  : "block";
+    dark.style.display  = isDark ? "block" : "none";
+    return true;
   }}
-  applyTheme();
-  setTimeout(applyTheme, 300);
-  setTimeout(applyTheme, 800);
-  var obs = new MutationObserver(applyTheme);
-  obs.observe(document.documentElement, {{attributes:true, subtree:true, attributeFilter:["style","class"]}});
+  var tries = 0;
+  var iv = setInterval(function(){{
+    applyTheme();
+    if(++tries > 30) clearInterval(iv);
+  }}, 200);
+  var obs = new MutationObserver(function(){{ applyTheme(); }});
+  obs.observe(document.documentElement, {{childList:true, subtree:true}});
 }})();
 </script>''',
     unsafe_allow_html=True
