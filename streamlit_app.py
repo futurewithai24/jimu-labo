@@ -1,8 +1,9 @@
 import streamlit as st
+from PIL import Image
 
 st.set_page_config(
     page_title="UNLOOP｜業務効率化ツール集",
-    page_icon="🗂️",
+    page_icon=Image.open("assets/unloop-logo.png"),
     layout="wide"
 )
 
